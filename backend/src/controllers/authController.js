@@ -1,7 +1,7 @@
 const express = require('express');
 const User = require('../models/User');
 const router = express.Router();
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt')
 
 
 
@@ -24,16 +24,16 @@ router.post('/novo', async (req, res) => {
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email }).select('+password');
+    const user = await User.findOne({ email }).select("+password");
 
 if (!user)
         return res.status(400).send({ error: 'Usuario não encontrado' });
 
-if (!await bcrypt.compare(password, user.password))
+        if (!await bcrypt.compare(req.body.password, user.password))
 
- return res.status(400).send({error: 'Senha Invalida'});
+        return res.status(400).send({error: 'Senha Invalida'});
+       
+               res.send({user});
+       });
 
-        res.send({user});
-});
-
-module.exports = (app) => app.use('/cadastro', router);
+module.exports = app => app.use('/cadastro', router);
